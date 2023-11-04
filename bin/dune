@@ -1,0 +1,4 @@
+(executable
+ (public_name kamon_ws_relay)
+ (name main)
+ (libraries kamon_ws_relay))
