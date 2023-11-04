@@ -1,4 +1,5 @@
 (executable
  (public_name kamon_ws_relay)
  (name main)
- (libraries kamon_ws_relay))
+ (libraries kamon_ws_relay dream lwt)
+ (preprocess (pps lwt_ppx)))
