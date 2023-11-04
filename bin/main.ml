@@ -56,7 +56,8 @@ let () =
   Dream.run
   @@ Dream.logger
   @@ Dream.router [
-    Dream.get "/"
+    Dream.get "/" @@ Dream.from_filesystem "static" "index.html";
+    Dream.get "/ws"
       (fun _ -> Dream.websocket handle_client);
-
+    Dream.get "/static/**" @@ Dream.static "static";
   ]
