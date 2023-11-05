@@ -1,0 +1,26 @@
+#+title: Kamon Online
+
+This project is the backend for an online implementation of the [[https://www.cosmoludo.com/kamon-en][Kamon board game]], it is meant to be deployed with the [[https://github.com/Triagle/kamon-frontend][accompanying frontend]]. The backend is a stateless server consisting of a static host plus a websocket relay server. The websocket relay server is what clients use to communicate game state between each other. There is a very simple protocol that clients use connect to the relay and be routed by the relay to the correct opponent. The backend is written in OCaml.
+
+Though this server is intended for use with the accompanying Kamon frontend, it is generic enough to serve as a backend to any two-player game provided they do not require game state to persist beyond server restarts. Indeed, the same server could host multiple different two player games simultaneously.
+
+The websocket protocol is a very simple relay protocol. The protocol design is generic enough to allow reuse of the server for other simple two-player games. A client hosts a new game by initiating a request to the relay of the form =* <roomid>_0=, where roomid is a unique identifier for the current room, and zero indicates that this is the first player in this room. The host may optionally send a =*= request, which is a request for data from the other player (if there is another player associated with the room at this point). This room id and player number combination is a key to a hash table of websocket connections on the server. The joining player repeats an identical process, sending first =* <roomid>_1= and then =*= to the relay to request the current game state from the host. After this initial synchronisation, both clients can continue to send game state back and forth between each other at will.
+
+#+begin_src mermaid :file test.png
+sequenceDiagram
+ participant A
+ participant Relay
+ participant B
+ A ->> Relay: * roomid_0
+ A ->> Relay: *
+ B ->> Relay: * roomid_1
+ B ->> A: *
+ A ->> B: Game state
+ B ->> A: Altered game state
+#+end_src
+
+#+RESULTS:
+[[file:test.png]]
+
+* Deploying
+To deploy this backend, compile the project using dune and then take the produced executable and run it. Static files are hosted in the =static= folder. The static folder should minimally contain an =index.html= file. The websocket relay is hosted on the =/ws= endpoint.
