@@ -1,6 +1,6 @@
 #+title: Kamon Online
 
-This project is the backend for an online implementation of the [[https://www.cosmoludo.com/kamon-en][Kamon board game]], it is meant to be deployed with the [[https://github.com/Triagle/kamon-frontend][accompanying frontend]]. The backend is a stateless server consisting of a static host plus a websocket relay server. The websocket relay server is what clients use to communicate game state between each other. There is a very simple protocol that clients use connect to the relay and be routed by the relay to the correct opponent. The backend is written in OCaml.
+This project is the backend for an online implementation of the [[https://www.cosmoludo.com/kamon-en][Kamon board game]], it is meant to be deployed with the [[https://github.com/lispandfound/kamon-frontend][accompanying frontend]]. The backend is a stateless server consisting of a static host plus a websocket relay server. The websocket relay server is what clients use to communicate game state between each other. There is a very simple protocol that clients use connect to the relay and be routed by the relay to the correct opponent. The backend is written in OCaml.
 
 Though this server is intended for use with the accompanying Kamon frontend, it is generic enough to serve as a backend to any two-player game provided they do not require game state to persist beyond server restarts. Indeed, the same server could host multiple different two player games simultaneously.
 
